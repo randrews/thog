@@ -26,15 +26,16 @@ function instance.init(self)
    end
 
    self.width, self.height = self.layers[1].width, self.layers[1].height
+   self.size = point(self.width, self.height)
    
    return self
 end
 
-function instance.at(self, layer, x, y, val)
+function instance.at(self, layer, pt, val)
    local l = self.layer_index[layer]
    if not l then error("No such layer: " .. layer) end
-   if val then l[x+y*self.width] = val end
-   return l[x+y*self.width]
+   if val then l[pt.x+pt.y*self.width] = val end
+   return l[pt.x+pt.y*self.width]
 end
 
 function instance.each(self)
@@ -46,10 +47,15 @@ function instance.each(self)
    end
 end
 
-function instance.bounds(self, x, y)
-   if x < 0 then x = 0 end
-   if x > self.width-1 then x = self.width-1 end
-   if y < 0 then y = 0 end
-   if y > self.height-1 then y = self.height-1 end
-   return x, y
+function instance.clamp(self, pt)
+   pt = pt:copy()
+   if pt.x < 0 then pt.x = 0 end
+   if pt.x > self.width-1 then pt.x = self.width-1 end
+   if pt.y < 0 then pt.y = 0 end
+   if pt.y > self.height-1 then pt.y = self.height-1 end
+   return pt
+end
+
+function instance.inside(self, pt)
+   return pt >= point(0, 0) and pt < self.size
 end

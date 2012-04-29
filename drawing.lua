@@ -34,7 +34,7 @@ function Game.instance.input(self)
    local dir = dir_for_key(key)
 
    if dir then
-      self.cursor = point(self.map:bounds((self.cursor + dir)()))
+      self.cursor = self.map:clamp(self.cursor + dir)
 
    elseif key == 10 then
       if self.cursor:adjacent(self.player) and self:usable(self.cursor) then
@@ -70,10 +70,10 @@ function cell_for(game, pt)
    if pt == game.player then
       return color.fg(0x0f) .. bg_color(game, pt) .. '@'
 
-   elseif map:at('Walls', pt()) ~= 0 then
+   elseif map:at('Walls', pt) ~= 0 then
       return color.fg(0x2d) .. bg_color(game, pt, 0x0c) .. '#'
 
-   elseif map:at('Doors', pt()) ~= 0 then
+   elseif map:at('Doors', pt) ~= 0 then
       return color.fg(0x5e) .. bg_color(game, pt) .. '+'
 
    else

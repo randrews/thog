@@ -34,15 +34,14 @@ function instance.walk(self, dir)
 end
 
 function instance.use(self, pt)
-   self.map:at('Doors', pt.x, pt.y, 0)
+   self.map:at('Doors', pt, 0)
 end
 
 function instance.walkable(self, pt)
    local map = self.map
-   return map:at('Walls', pt()) == 0 and map:at('Doors', pt()) == 0
+   return map:at('Walls', pt) == 0 and map:at('Doors', pt) == 0
 end
 
 function instance.usable(self, pt)
-   local map = self.map
-   return map:at('Doors', pt()) ~= 0
+   return self.map:at('Doors', pt) ~= 0
 end   

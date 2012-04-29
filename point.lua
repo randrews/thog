@@ -59,6 +59,16 @@ function instance.__eq(pt1, pt2)
    return pt1.x == pt2.x and pt1.y == pt2.y
 end
 
+-- A point is "less than" a point if each
+-- coord is less than the corresponding one
+function instance.__lt(pt1, pt2)
+   return pt1.x < pt2.x and pt1.y < pt2.y
+end
+
+function instance.__le(pt1, pt2)
+   return pt1.x <= pt2.x and pt1.y <= pt2.y
+end
+
 function test()
    local p = point(2,3)
    assert(p.x == 2 and p.y == 3)
@@ -82,4 +92,11 @@ function test()
    assert(not a2:adjacent(a3))
    assert(not a1:adjacent(a3))
    assert(not a1:adjacent(a1))
+
+   assert(a2 <= a1)
+   assert(a1 < a3)
+   assert(a3 > a1)
+   assert(not(a2 < a1))
 end
+
+test() -- Run the tests on load, error if any fail
