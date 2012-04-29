@@ -37,7 +37,9 @@ function Game.instance.input(self)
       self.cursor = point(self.map:bounds((self.cursor + dir)()))
 
    elseif key == 10 then
-      if self.cursor:ortho(self.player) then
+      if self.cursor:adjacent(self.player) and self:usable(self.cursor) then
+         self:use(self.cursor)
+      elseif self.cursor:ortho(self.player) then
          self:walk(self.player:toward(self.cursor))
       end
 
