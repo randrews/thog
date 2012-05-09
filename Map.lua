@@ -18,13 +18,6 @@ function instance.init(self)
       self.layer_index[ly.name] = ly
    end
 
-   self.object_index = {}
-   for _, og in ipairs(self.objects) do
-      for _, obj in ipairs(og) do
-         self.object_index[obj.name] = obj
-      end
-   end
-
    self.width, self.height = self.layers[1].width, self.layers[1].height
    self.size = point(self.width, self.height)
    
@@ -45,6 +38,17 @@ function instance.each(self)
       if n >= max then return nil
       else return n%row, math.floor(n/row) end
    end
+end
+
+function instance.each_point(self)
+   local p = point(0, 0)
+
+   return function()
+             p = p + point(1, 0)
+             if not self:inside(p) then p = point(0, p.y+1) end
+             if not self:inside(p) then return nil
+             else return p end
+          end
 end
 
 function instance.clamp(self, pt)

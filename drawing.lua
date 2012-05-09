@@ -73,8 +73,11 @@ function cell_for(game, pt)
    elseif map:at('Walls', pt) ~= 0 then
       return color.fg(0x2d) .. bg_color(game, pt, 0x0c) .. '#'
 
-   elseif map:at('Doors', pt) ~= 0 then
+   elseif map:at('Enemies', pt) ~= 0 then
       return color.fg(0x5e) .. bg_color(game, pt) .. '+'
+
+   elseif map:at('Boxes', pt) ~= 0 then
+      return color.fg(0x5e) .. bg_color(game, pt) .. 'o'
 
    else
       return bg_color(game, pt) .. ' '

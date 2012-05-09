@@ -17,8 +17,7 @@ end
 
 function instance.init(self, filename)
    self.map = Map.new(filename)
-   self.player = point( self.map.object_index.player.x/32,
-                        self.map.object_index.player.y/32 - 1 )
+   self.player = self:find_player()
    self.cursor = self.player:copy()
    return self
 end
@@ -44,4 +43,10 @@ end
 
 function instance.usable(self, pt)
    return self.map:at('Doors', pt) ~= 0
-end   
+end
+
+function instance.find_player(game)
+   for pt in game.map:each_point() do
+      if game.map:at('Thieves', pt) ~= 0 then return pt end
+   end
+end
