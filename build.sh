@@ -8,17 +8,17 @@ if [ ! -r tmx.so ]; then
     popd
 fi
 
-if [ ! -r kb.so ]; then
-    gcc -shared -o kb.so -undefined dynamic_lookup kb.c -lncurses
-fi
+libs=(kb lfov)
 
-pushd fov-lua
-make
+for lib in ${libs[@]}; do
+    pushd $lib
+    make
 
-if [ ! -r lfov.so ]; then
-    echo "Failed to build lfov"
-    exit 1
-fi
+    if [ ! -r $lib.so ]; then
+        echo "Failed to build $lib"
+        exit 1
+    fi
 
-cp lfov.so ..
-popd
+    mv $lib.so ..
+    popd
+done
