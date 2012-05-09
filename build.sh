@@ -1,14 +1,4 @@
-rm -f *.so
-
-if [ ! -r tmx.so ]; then
-    pushd TmxParser
-    g++ *.cpp base64/*.cpp tinyxml/*.cpp -c
-    g++ -bundle -undefined dynamic_lookup -o tmx.so *.o -lz
-    cp tmx.so ..
-    popd
-fi
-
-libs=(kb lfov)
+libs=(kb lfov tmx)
 
 for lib in ${libs[@]}; do
     pushd $lib
@@ -19,6 +9,6 @@ for lib in ${libs[@]}; do
         exit 1
     fi
 
-    mv $lib.so ..
+    cp $lib.so ..
     popd
 done
